@@ -1,3 +1,6 @@
+#!/usr/bin/python  
+# -*- coding: utf-8 -*-
+
 '''读取当前文件夹下PY文件，并制作一份MD文件
 
 默认文件头：
@@ -19,27 +22,31 @@ XXXX-XX-XX-!!!YOUR FILE NAME!!!
 import os, sys, re, shutil, time
 
 def trans(f):
-	md = open(time.strftime("%Y-%m-%d-", time.localtime())+f[:-4]+'.MD','w')
-	all_the_text = open(f,'w','utf-8').read()
+	filename = time.strftime("%Y-%m-%d-", time.localtime())+f[:-4]+'.MD'
+	if os.path.exists(filename):
+		os.remove(filename)
+	md = open(filename,'w', encoding='UTF-8')
+	all_the_text = open(f,'r', encoding='UTF-8').read()
+	briefing = re.compile("'''"+'(.*?)'+"'''",re.S).findall(all_the_text)
 	head = '\
-	---\n\
-	layout: postcn\n\
-	title: "python:{}"\n\
-	date: {} {} +0800\n\
-	lang: cn\n\
-	nav: post\n\
-	category: python\n\
-	tags: [python, file]\n\
-	---\n\
-	\n\
-	* content\n\
+---\n\
+layout: postcn\n\
+title: "python:{}"\n\
+date: {} {} +0800\n\
+lang: cn\n\
+nav: post\n\
+category: python\n\
+tags: [python, file]\n\
+---\n\
+\n\
+* content\n\
 	{}'.format(f[:-4], time.strftime("%Y-%m-%d", time.localtime()), time.strftime("%H:%M:%S", time.localtime()), '{:toc}')
-	article = '\
-	{}\n\
-	<!-- more -->\n',format(re.findall(r"(?<=''')[\s\S]*+?(?=''')", all_the_text))
 	md.write(head)
-	md.write(article)
+	md.write(briefing[0])
+	md.write('<!-- more -->\n')
+	md.write('{% highlight ruby lineno %}\n')
 	md.write(all_the_text)
+	md.write('\n{% endhighlight %}')
 	md.close()
 
 
