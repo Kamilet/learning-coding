@@ -15,7 +15,7 @@ def delNef(file_dir):
 	cjpg = []
 
 	#存入filename
-	for root, dirs, files in os.walk(file_dir):
+	for root, dirs, files in os.walk(file_dir):	#遍历当前文件夹
 		for i in files:
 			if '.NEF' in i:
 				if os.path.exists(i[0:-3]+'JPG') == False:
