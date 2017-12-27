@@ -27,4 +27,5 @@ for url in link_list:
     i +=1
 f.close()
 
-input('抓取完成，本次抓取数据{}个，按任意键退出'.format(i))
+input('抓取完成，本次抓取数据{}个，按任意键打开文件，关闭文件时本程序自动退出'.format(i))
+os.popen('url.txt') 
