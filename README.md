@@ -43,12 +43,15 @@ Follow my designing site: http://www.kamilet.cn _(in Chinese)_
 + You need to edit it if inusing different Jekyll theme
 
 #### Something not that useful [Code here](https://github.com/Kamilet/learning-coding/tree/master/simple-program/tools-in-python-shell)  
+
 Delete NEF file when not a JPG file with same name
 + Won't really delete, just move to a floder
 + You may want select Photos with JPG
+
 Replace some STRING in file name
 + Maybe mess your library 
-+ __Warning__  
++ __Warning__
+
 A Palindrome Check for STRING:
 + Won't read punctuation marks  
 + Won't mind upper letter  
