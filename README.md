@@ -2,13 +2,10 @@
 Some tools for my self when learning python :)
 
 ---
-Learning python in my spare time from 2017-12-26.
-
-Some my handy programs written and pulled here.
-
-Detail at: http://coding.kamilet.cn _(in Chinese)_
-
-Follow my designing site: http://www.kamilet.cn _(in Chinese)_
+Learning python in my spare time from 2017-12-26.  
+Some my handy programs written and pulled here.  
+Detail at: http://coding.kamilet.cn _(in Chinese)_  
+Follow my designing site: http://www.kamilet.cn _(in Chinese)_  
 
 ---
 ## Something maybe useful here
@@ -51,7 +48,7 @@ Delete NEF file when not a JPG file with same name
 + You may want select Photos with JPG
 Replace some STRING in file name
 + Maybe mess your library 
-+ __Warning__
++ __Warning__  
 A Palindrome Check for STRING:
 + Won't read punctuation marks  
 + Won't mind upper letter  
