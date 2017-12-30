@@ -2,9 +2,8 @@
 
 '''使用字典作为伪数据库的图书管理系统，特别初级版，适用于windows
 
-使用字典，所以如果你关闭程序它会失效！
-后续版本尝试加入存储txt功能。
-
+使用字典，所以如果你中途关闭程序就没法保存！
+请输入save来保存，或者exit退出
 '''
 __author__ = 'Kamilet (kamilet.cn)'
 __version__ = '1.0'  # lastchanged:
@@ -12,11 +11,12 @@ __version__ = '1.0'  # lastchanged:
 import os
 import logging  # 日志功能
 import time
-# from . import save-library-list  #预计加入的存储功能
 
 '''------------------不存在的主界面--------------------
 主功能输入: 直接显示当前几个人，几本书出借中，共几本书
-    exit - 退出程序
+    exit - 保存并退出程序
+    save - 保存
+    load - 读盘
     数字 - 符合4位/6位执行程序，否则等于输入'其他'
     newbook - 录入书
     newpeople - 录入人
@@ -57,8 +57,8 @@ def lib_main_input():
         print('------------------------------------------------------\
 \n日志被保存在：\n', logging_file)
         os.startfile(logging_file)
-        input('您可以随时手动打开或删除该文件，文件已纪录 {} 行。\
-输入任意内容返回主菜单：'.format(countline(logging_file)))
+        input('您可以随时手动打开或删除该文件。\n\
+输入任意内容返回主菜单：')
         return
     elif usercommand == 'newbook':
         newbook()
@@ -70,6 +70,16 @@ def lib_main_input():
         listbooks()
     elif usercommand == 'listlend':
         listlend()
+    elif usercommand == 'save':
+        savedata(echo = 1)
+    elif usercommand == 'load':
+        _command = input('\n您正调用读取功能，将读取/library_data/save.dat！\n\
+如文件不存在，数据将被初始化！\n\
+您可使用save命令存档后，查看文件存储形式并用本功能导入csv文件\n\n\
+输入任意内容开始读取，输入exit返回：')
+        if _command == 'exit':
+            return
+        loaddata(echo = 1)
     elif usercommand == 'help':
         print('''\n\n
 您可使用以下命令：
@@ -103,12 +113,14 @@ def sortlib():
     if not changed:  # 之前的操作未涉及图书变化
         return
     else:  # 涉及书籍变化，重新整理
+        global remainbook
+        remainbook = 0
         global dict_books
         global dict_people
         dict_books.clear()
         dict_people.clear()
         for i in range(1, len(books)+1):  # 整理book
-            dict_books[i] = sortbook(i)
+            dict_books[i + 100000] = sortbook(i + 100000)
         for p in range(1, len(people)+1):  # 整理people
             dict_people[p] = sortpeople(p)
         changed = False
@@ -127,17 +139,16 @@ def sortbook(i):
     global remainbook
     _count = 0
     _opnu = 0
-    for k in range(1, len(books)+1):
-        if opreation[k][1] == i + 100000:
+    for k in range(1, len(opreation)+1):
+        if opreation[k][1] == i:
             _count += 1
             _opnu = k
-    _count = int((_count + 1) / 2)
-    if _opnu != 0:
-        return books[i+100000] + [_count, opreation[_opnu][0],
+    if _opnu != 0 and _count % 2 != 0:
+        return books[i] + [int((_count + 1) / 2), opreation[_opnu][0],
                people[opreation[_opnu][0]][0], opreation[_opnu][2]]
     else:
         remainbook += 1
-        return books[i+100000] + [_count, '未借出',
+        return books[i] + [_count, '未借出',
                '无', '无']
 
 def sortpeople(p):
@@ -153,14 +164,13 @@ def sortpeople(p):
     global opreation
     _count = 0
     _opnu = 0
-    for k in range(1, len(people)+1):
+    for k in range(1, len(opreation) + 1):
         if opreation[k][0] == p:
             _count += 1
             _opnu = k
-    _count = int((_count + 1) / 2)
-    if _opnu != 0:
-        return people[p] + [_count, opreation[_opnu][0],
-               books[(opreation[_opnu][0]) + 100000][0], opreation[_opnu][2]]
+    if _opnu != 0 and _count % 2 != 0:
+        return people[p] + [int((_count + 1) / 2), opreation[_opnu][1],
+               books[opreation[_opnu][1]][0], opreation[_opnu][2]]
     else:
         return people[p] + [_count, '未借书',
                '无', '无']
@@ -172,11 +182,11 @@ def sortpeople(p):
 
 def lib_overview():
     '''状态函数，主函数启动时运行'''
-    print('------------------------------------------------------\n\
+    print('\n\n------------------------------------------------------\n\
 欢迎进入没有UI的图书管理系统，现在是{}！\n\
 该系统当前有图书【{}】本，未借出的有【{}】本！\n\
 有【{}】位注册会员喜欢这个书店，虽然它不存在！\n\
-------------------------------------------------------'\
+------------------------------------------------------\n'\
            .format(time.strftime("%Y-%m-%d %H:%M:%S",
                    time.localtime(time.time())),
             len(books), remainbook, len(people)), end='')
@@ -188,15 +198,6 @@ def errorinput():
     input('无效的参数！\n输入任意内容返回主菜单：')
     return
 
-
-def countline(filelib):
-    '''检测行数，若不能则返回失败'''
-    try:
-        lines = len(filelib.readlines())
-    except:     # 实际上是错误用法
-        return '"统计失败"'
-    else:
-        return lines
 
 '''------------------结果和二级界面命令--------------------
     数字4位:显示人员信息，不存在报错返回：
@@ -263,17 +264,17 @@ def listbooks():
     '''书籍列表函数'''
     print('书籍列表：\n书籍编号|  书名|  作者|  价格|  \
 被借次数|  借阅人|  姓名|  借阅日期|')
-    for i in range(1, len(dict_books) + 1):
+    for i in range(100001, len(dict_books) + 100001):
         if dict_books[i][5] == '无':
             print('{}|  {}|  {}|  {}|  {}|  {}|  {}|  {}|  '
-                   .format(i + 100000,
+                   .format(i,
                            dict_books[i][0], dict_books[i][1],
                            dict_books[i][2], dict_books[i][3],
                            dict_books[i][4], dict_books[i][5],
                            dict_books[i][6]))
         else:
             print('{}|  {}|  {}|  {}|  {}|  {}|  {}|  {}|  '
-                   .format(i + 100000,
+                   .format(i,
                            dict_books[i][0], dict_books[i][1],
                            dict_books[i][2], dict_books[i][3],
                            str(dict_books[i][4]).zfill(4), dict_books[i][5],
@@ -291,10 +292,10 @@ def listlend():
     '''所有被借走的书'''
     print('所有被借走的书籍列表：\n书籍编号|  书名|  作者|  价格|  \
 被借次数|  借阅人|  姓名|  借阅日期|')
-    for i in range(1, len(dict_books) + 1):
+    for i in range(100001, len(dict_books) + 100001):
         if dict_books[i][5] != '无':
             print('{}|  {}|  {}|  {}|  {}|  {}|  {}|  {}|  '
-                   .format(i + 100000,
+                   .format(i ,
                            dict_books[i][0], dict_books[i][1],
                            dict_books[i][2], dict_books[i][3],
                            str(dict_books[i][4]).zfill(4), dict_books[i][5],
@@ -310,19 +311,46 @@ def listlend():
 
 def newpeople():
     '''录入函数'''
-    pass
+    global changed
+    global people
+    _name = input('\n1.录入新会员，输入会员名(任意字符)：')
+    _age = input('2.录入新会员，输入会员年龄(应为数字)：')
+    _command = input('您在录入新会员(会员编号{})：姓名：{}、年龄：{}，\n\
+输入任意键确认，输入exit退出：'.format((len(people)+1), _name, _age))
+    if _command != 'exit':
+        people[len(people)+1] = [_name, _age]
+        changed = True
+        print('录入成功！',end='')
+        input('输入任意内容查看新的人员名单：')
+        sortlib()
+        print('------------------------------------------------------')
+        listpeople()
 
 
 def newbook():
     '''录入函数'''
-    pass
+    global changed
+    global books
+    _bookname = input('\n1.录入新书籍，输入书名(任意字符)：')
+    _author = input('2.录入新书籍，输入书籍作者(任意字符)：')
+    _price = input('3.录入新书籍，输入书籍价格(应为数字)：')
+    _command = input('您在录入新书籍(编号{})：书名：{}、作者：{}、价格：{}，\n\
+输入任意键确认，输入exit退出：'.format((len(books)+100001), _bookname, _author, _price))
+    if _command != 'exit':
+        books[len(books)+100001] = [_bookname, _author, _price]
+        changed = True
+        print('录入成功！',end='')
+        input('输入任意内容查看新的书籍列表：')
+        sortlib()
+        print('------------------------------------------------------')
+        listbooks()
 
 
 def pull_book(num):
     '''使用编号拉取书的全部状态并编辑'''
     global changed
     try:
-        if num > len(books):
+        if num >= len(books) + 100001:
             input('无效的输入，书籍编号应该是可用的6位数字！\
 \n您可以在主菜单使用listbooks命令查看可用的编号。输入任意内容回到主菜单：')
             return
@@ -342,28 +370,32 @@ def pull_book(num):
 \n输入return确认该书归还，否则退出：')
         if _command == 'return':
             opreation[len(opreation) + 1] = [dict_books[num][4], num,
-            time.strftime("%Y-%m-%d", time.localtime(time.time()))]
+            time.strftime("%Y-%m-%d", time.localtime(time.time()))]            
             changed = True
             addlog(booknumber=num, peoplenumber=dict_books[num][4])
             input('------------------------------------------------------\
 \n还书成功，输入任意内容返回主菜单：')
     else:  #书没被借走
-        _command = input('这本书当前未借出。输入会员代码借给某会员，输入exit返回：')
-        try:
-            if _command > len(people):
-                input('无效的输入，会员代码应该是可用的4位数字！\
-\n您可以在主菜单使用listpeople命令查看可用的编号。输入任意内容回到主菜单：')
-                return
-            elif _command == 'exit':
-                return
-        except:
+        _command = str(input('这本书当前未借出。输入会员代码借给某会员，输入exit返回：'))
+        if not str.isdigit(_command):
             errorinput()
             return
-        opreation[len(opreation) + 1] = [_command, num,
-        time.strftime("%Y-%m-%d", time.localtime(time.time()))]
-        changed = True
-        addlog(booknumber=num, peoplenumber=_command, lend=1)
-        input('------------------------------------------------------\
+        _command = int(_command)
+        if _command > len(people):
+            input('无效的输入，会员代码应该是可用的4位数字！\
+\n您可以在主菜单使用listpeople命令查看可用的编号。输入任意内容回到主菜单：')
+            return
+        elif _command == 'exit':
+            return
+        elif dict_people[_command][4] != '无':
+            input('抱歉！每个人只能借一本书！输入任意内容返回：')
+            return
+        else:
+            opreation[len(opreation) + 1] = [_command, num,
+            time.strftime("%Y-%m-%d", time.localtime(time.time()))]
+            changed = True
+            addlog(booknumber=num, peoplenumber=_command, lend=1)
+            input('------------------------------------------------------\
 \n借书成功，输入任意内容返回主菜单：')
 
 
@@ -392,26 +424,30 @@ def pull_people(num):
             opreation[len(opreation) + 1] = [num, dict_people[num][3],
             time.strftime("%Y-%m-%d", time.localtime(time.time()))]
             changed = True
-            addlog(booknumber=num, peoplenumber=dict_books[num][4])
+            addlog(booknumber=dict_people[num][3], peoplenumber=num)
             input('------------------------------------------------------\
 \n还书成功，输入任意内容返回主菜单：')
     else:
-        _command = input('该会员未借书，请输入书籍代码借给他某本书，输入exit返回：')
-        try:
-            if _command > len(people):
-                input('无效的输入，书籍代码应该是可用的6位数字！\
-\n您可以在主菜单使用listbooks命令查看可用的编号。输入任意内容回到主菜单：')
-                return
-            elif _command == 'exit':
-                return
-        except:
+        _command = str(input('该会员未借书，请输入书籍代码借给他某本书，输入exit返回：'))
+        if not str.isdigit(_command):
             errorinput()
             return
-        opreation[len(opreation) + 1] = [num, _command,
-        time.strftime("%Y-%m-%d", time.localtime(time.time()))]
-        changed = True
-        addlog(booknumber=_command, peoplenumber=num, lend=1)
-        input('------------------------------------------------------\
+        _command = int(_command)
+        if _command > len(books) + 100000 or _command < 100000:
+            input('无效的输入，书籍代码应该是可用的6位数字！\
+\n您可以在主菜单使用listbooks命令查看可用的编号。输入任意内容回到主菜单：')
+            return
+        elif _command == 'exit':
+            return
+        elif dict_books[_command][5] != '无':
+            input('抱歉！这本书被借走了！输入任意内容返回：')
+            return
+        else:
+            opreation[len(opreation) + 1] = [num, _command,
+            time.strftime("%Y-%m-%d", time.localtime(time.time()))]
+            changed = True
+            addlog(booknumber=_command, peoplenumber=num, lend=1)
+            input('------------------------------------------------------\
 \n借书成功，输入任意内容返回主菜单：')
 
 
@@ -441,11 +477,14 @@ def pull_people(num):
     {time} : An ERROR occurred.'''
 
 
-logging_file = os.path.join(os.getenv('HOMEDRIVE'),
-                            os.getenv('HOMEPATH'),
-                            'library_log.log')  # 将log放在:'用户/library.log'下
+#logging_file = os.path.join(os.getenv('HOMEDRIVE'),
+#                            os.getenv('HOMEPATH'),
+#                            'library_log.log')  # 将log放在:'用户/library_log.log'下
 
-# print('Logging to', logging_file)	#测试用
+if not os.path.exists(os.getcwd() + '\\library_data'):
+    os.mkdir(os.getcwd() + '\\library_data')
+logging_file = os.getcwd() + r'\library_data\library_log.log'  # 更新后log在.py/library_data下
+
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s : %(levelname)s : %(message)s',
@@ -456,6 +495,8 @@ logging.basicConfig(
 
 def addlog(operror=0, opsys=0, add=0, booknumber=0, peoplenumber=0, lend=0):
     '''输出log的函数'''
+    if booknumber !=0 and booknumber < 100000:
+        booknumber += 100000    #整理
     if operror != 0:
         logging.warning("An ERROR occurred.")
     elif opsys == 1:
@@ -467,28 +508,23 @@ The library sys is running\n\
 The library sys is over\n\
 ------------------------------------------------------")
     elif (booknumber != 0 and add != 0):  # 传入判断的数
-        logging.info('A new book 【{}:《{}》】 added.\n\
-                      Now we have {} books.'
+        logging.info('A new book 【{}:《{}》】 added.\nNow we have {} books.'
                      .format(str(booknumber).zfill(6),
                              books[booknumber][0], str(booknumber).zfill(6)))
         # 用zfill补位
     elif (peoplenumber != 0 and add != 0):  # 传入判断的数
-        logging.info('A new people 【{}:《{}》】 added.\n\
-                      Now we have {} books.'
+        logging.info('A new people 【{}:《{}》】 added.\nNow we have {} books.'
                      .format(str(peoplenumber).zfill(6),
                              people[peoplenumber][0],
                              str(peoplenumber).zfill(6)))
     elif (booknumber != 0 and peoplenumber != 0 and lend == 0):  # 传入判断的数
-        print(people[peoplenumber][0])
-        logging.info('People 【{}:《{}》】 returned {}:{}.\n\
-                      Now we have {} books here.'
+        logging.info('People 【{}:《{}》】 returned {}:{}.\nNow we have {} books here.'
                      .format(str(peoplenumber).zfill(4),
                              people[peoplenumber][0],
                              str(booknumber).zfill(6), books[booknumber][0],
                              remainbook))
     elif (booknumber != 0 and peoplenumber != 0 and lend != 0):  # 传入判断的数
-        logging.info('A book 【{}:《{}》】 lend to {}:{}.\n\
-                      Now we have {} books here.'
+        logging.info('A book 【{}:《{}》】 lend to {}:{}.\nNow we have {} books here.'
                      .format(str(booknumber).zfill(6), books[booknumber][0],
                              str(peoplenumber).zfill(4),
                              people[peoplenumber][0],
@@ -508,23 +544,64 @@ The library sys is over\n\
     opnumber,peoplenumber,booknumber
     #操作代码，人编号，书编号
 
-------------------初始--------------------
+------------------初始化--------------------
 给图书馆里放几本书，人员里加一些人'''
 
-people = {
-    1: ['kamilet', 24],
-    2: ['grucy', 15],
-    3: ['tom', 87],  # 没借过书
-    4: ['jerry', 17],
+# 1次借书+1次还书，会产生1次借阅增加和2次操作
+# 本来people和books内有'最后操作'和'借书次数'参数，可以计算得到故忽略
+# 注意key必须从1开始，在程序内新加值不需要担心这个问题，但默认列表不行
+
+
+def loaddata(echo = ''):
+    '''读取文件，默认静默运行'''
+    global people
+    global books
+    global opreation
+    if os.path.exists(os.getcwd() + '\\library_data\\save.dta'):
+        f = open(os.getcwd() + '\\library_data\\save.dta', 'r')
+        for line in f.readlines():
+            linestr = line.strip('\n')
+            linestrlist = linestr.split(',')
+            if linestrlist[0] == 'peop':
+                people[len(people) + 1] = linestrlist[1:3]
+            elif linestrlist[0] == 'book':
+                books[len(books) + 100001] = linestrlist[1:4]
+            elif linestrlist[0] == 'opre':
+                opreation[len(opreation) + 1] =\
+                [int(linestrlist[1]), int(linestrlist[2]), linestrlist[3]]
+            else:
+                addlog(operror = 1)
+        print(opreation)
+    else:
+        defultdata()
+    if len(people) == 0 or len(books) == 0 or len(opreation) == 0:
+        defultdata()  #防止读取失败
+    if str(echo) != '':
+        print('在“{}”尝试为您读取书籍信息'
+            .format(time.strftime("%Y-%m-%d %H:%M:%S",
+            time.localtime(time.time()))))
+
+
+def defultdata():
+    '''默认数据'''
+    global people
+    global books
+    global opreation
+    print('无法检测到保存的文件，已载入初始化数据...\n\n')
+    people = {
+    1: ['Kamilet', 24],
+    2: ['Grucy', 15],
+    3: ['Tom', 87],  # 没借过书
+    4: ['Jerry', 17],
 }
-books = {
+    books = {
     100001: ['时间简史', '史蒂芬霍金', 12],
     100002: ['史记', '司马迁', 14],
     100003: ['巴黎圣母院', '雨果', 16],
     100004: ['大英百科全书', '博物院', 60],
     100005: ['营销管理', '菲利普·科特勒', 32],
 }
-opreation = {
+    opreation = {
     1: [1, 100002, '2017-11-12'],
     2: [2, 100005, '2017-11-12'],
     3: [4, 100001, '2017-11-12'],
@@ -532,19 +609,72 @@ opreation = {
     5: [4, 100001, '2017-12-17'],
     6: [4, 100002, '2017-12-18'],
 }
-# 1次借书+1次还书，会产生1次借阅增加和2次操作
-# 本来people和books内有'最后操作'和'借书次数'参数，可以计算得到故忽略
-# 注意key必须从1开始，在程序内新加值不需要担心这个问题，但默认列表不行
+
+
+'''------------------存储和读取--------------------
+希望程序可以在启动的时候检查文件是否存在：
+/library_data/save.dta
+如果存在，那么读取里面的信息，如果不存在，使用下面初始化的信息
+关闭程序时，保存信息覆盖到save.dta
+
+具体实现：
+存储：将字典的key忽略，每行一个存入数组，用字典的名称的前4字母起始
+    如：peop,'Kamilet',24
+        book,'时间简史','史蒂芬霍金',12
+        opre,1,100002,'2017-11-12'
+    但是由于不能保证空格会不会出现，所以不能用strip()方法，不能用空格作为分隔符。
+    所以打算用split(',')把逗号作为分隔符，这样也便于用csv导入或打开
+
+读取：检查save.dta存在与否，存在则读取：
+    逐行检查前4位，按照具体内容读入后面的数组'''
+
+
+def savedata(echo = ''):
+    '''存储文件，默认静默运行'''
+    f = open(os.getcwd() + '\\library_data\\save.dta', 'w')
+    for i in range(1, len(people) +1 ):
+         f.write('peop,')
+         f.write(str(people[i][0]))
+         f.write(',')
+         f.write(str(people[i][1]))
+         f.write('\n')
+    for i in range(100001, len(books) + 100001):
+         f.write('book,')
+         f.write(str(books[i][0]))
+         f.write(',')
+         f.write(str(books[i][1]))
+         f.write(',')
+         f.write(str(books[i][2]))
+         f.write('\n')
+    for i in range(1, len(opreation) +1 ):
+         f.write('opre,')
+         f.write(str(opreation[i][0]))
+         f.write(',')
+         f.write(str(opreation[i][1]))
+         f.write(',')
+         f.write(str(opreation[i][2]))
+         f.write('\n')
+    f.close()
+    if str(echo) != '':
+        print('在“{}”为您保存书籍信息'
+            .format(time.strftime("%Y-%m-%d %H:%M:%S",
+            time.localtime(time.time()))))
+
+
+
+
 
 
 '''程序开始'''
-
-
 switch = True  # 主函数开关
 changed = True  # 修改检查
 dict_books = {}  # 存储书籍的空字典
 dict_people = {}  # 存储人员的空字典
 remainbook = 0  #剩下几本书
+people = {}
+books = {}
+opreation = {}
+loaddata()
 addlog(opsys=1)
 while switch:
     lib_main_input()
@@ -560,4 +690,5 @@ while switch:
     '''
 # 后续这里加存储函数
 addlog(opsys=2)
+savedata(echo = 1)
 input('按任意键退出程序')
