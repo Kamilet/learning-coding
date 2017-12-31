@@ -15,7 +15,12 @@ Follow my designing site: http://www.kamilet.cn _(in Chinese)_
 + using python Dictionary to save and manage data in RAM
 + No SQL or Third-party Libraries used
 + No GUI
-+ Hints are in Chinese
++ Hints are in Chinese _(utf-8)_
+
+#### A 2048 game without UI [Code here](https://github.com/Kamilet/learning-coding/tree/master/simple-program/2048-python-game)
++ No SQL or Third-party Libraries used
++ No GUI
++ Hints are in Chinese _(utf-8)_
 
 #### Get URL from oline XML file [Code here](https://github.com/Kamilet/learning-coding/blob/master/simple-program/tools-in-python-shell/get-url-in-XML.py)
 + using Requests
