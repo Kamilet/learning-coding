@@ -22,7 +22,13 @@ Follow my designing site: http://www.kamilet.cn _(in Chinese)_
 + Hints are in Chinese _(utf-8)_
 
 #### A 2048 game without UI [Code here](https://github.com/Kamilet/learning-coding/tree/master/simple-program/2048-python-game)  
-**2048游戏** \| 没有GUI \| 不使用SQL或拓展库  
+**2048游戏** \| 没有GUI  
++ No SQL or Third-party Libraries used
++ No GUI
++ Hints are in Chinese _(utf-8)_
+
+#### A Joker Card game without UI [Code here](https://github.com/Kamilet/learning-coding/tree/master/simple-program/try-not-remain-joker-python-game)
+**抽鬼牌** \| 没有GUI \| 伪随机  
 + No SQL or Third-party Libraries used
 + No GUI
 + Hints are in Chinese _(utf-8)_
