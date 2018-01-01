@@ -106,7 +106,7 @@ def maincontrol(temp):
 
 def sort_cheat():
     global gamepad
-    a = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    a = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     b = gamepad
     _count1 = 0
     _count2 = 0
