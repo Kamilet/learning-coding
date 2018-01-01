@@ -12,7 +12,7 @@ __author__ = 'Kamilet (kamilet.cn)'
 __version__ = '1.0'  # lastchanged: 2018-01-01
 
 import random
-import os
+from os import system
 from sys import exit
 
 
@@ -68,7 +68,7 @@ def refresh(isnew = 0):
         gameoverflag = 0
         initialization()
         return
-    temp = os.system("cls")
+    temp = system("cls")
     print('-'* 65)
     print('欢迎游玩2048游戏，输入help获取帮助！\n当前分数：{}，\
 历史高分：{}！'.format(scorce, highscorce))
