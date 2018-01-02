@@ -16,30 +16,36 @@ def my_max(*args, **kwargs):
 
 def sort_big_small(args, key, switch = False):
     '''set False to get the smallest one'''
-    lists = []
     # special when len = 1
     # if isalpha, return the biggest alpht in ASCII
     # if number, return the number it self # as the original founction max()
     # if list, translate it
-    if 'lambda' in str(key) and len(args) == 1:
-        # here i get a way to solve the lambda case after trying...
-        _count = len(args[0])
-        for i in range(0, _count):
-            lists.append(key(args[0][i]))
-        return args[0][bubble_max(lists, switch)]
+    lists = []
     if len(args) == 1:
-        if type(args[0]) == list or type(args[0]) == tuple:
+        if 'lambda' in str(key):
+            # here i get a way to solve the lambda case after trying...
+            # If the lambda function deleted any items... Error!
+            _count = len(args[0])
+            for i in range(0, _count):
+                lists.append(key(args[0][i]))
+            return args[0][bubble_max(lists, switch)]
+        elif type(args[0]) == list or type(args[0]) == tuple:
             return args[0][bubble_max(args[0], switch)]
         elif str(args[0]).isalpha():
             _count = len(args[0])
             for i in range(0, _count):
                 lists.append(args[0][i])
             return lists[bubble_max(lists, switch)]
+        elif type(args) != type(list(args)):
+            # in python 3, range() won't return a list...
+            # tried: 'range' in str(args) or 'genexpr' in str(args)
+            lists = list(args[0])
+            return lists[bubble_max(lists, switch)]
         else:
             return args[0]
 
     # if len > 1, check key first
-    # 2018-01-02 dammmm I don't know how to deal with it :heart_break:
+    # 2018-01-02 dammmm I don't know how to deal with it :breaken_heart:
     if key != None:
         for item in args:
             # doesn't work for lambda at all
@@ -71,6 +77,12 @@ def sort_big_small(args, key, switch = False):
     # [filed check] with: min((9,))
     # solved
     # [filed check] with: max(range(6))
+    # solved
+    # [filed check] with: min(abs(i) for i in range(-10, 10))
+    # solved
+    # [filed check] with: max(filter(str.isalpha,\"@v$e56r5CY{]\"))
+    # solved but new issues...
+    # And solved
     return args[bubble_max(lists, switch)]
 
 
@@ -104,7 +116,7 @@ def bubble_max(lists, switch = False):
                    i = k
                    break
         return _position_max
-'''
+
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
     assert my_max(3, 2) == 3, "Simple case max"
@@ -114,6 +126,55 @@ if __name__ == '__main__':
     assert my_max(2.2, 5.6, 5.9, key=int) == 5.6, "Two maximal items"
     assert my_min([[1, 2], [3, 4], [9, 0]], key=lambda x: x[1]) == [9, 0], "lambda key"
     print("Coding complete? Click 'Check' to review your tests and earn cool rewards!")
+
+
+'''优解，我就是傻
+
+def min(*args, **kwargs):
+
+    key = kwargs.get("key", None)
+
+    print (args)
+
+    if len(args)==1: 
+
+        args=list(args[0]) 
+
+    print (args)
+
+    result=args[0]
+
+    for x in range(1,len(args)):
+
+        if key!=None and key(args[x]) <key(result) or key==None and args[x] <result: 
+
+            result = args[x]
+
+    return result
+
+    
+
+
+
+def max(*args, **kwargs):
+
+    key = kwargs.get("key", None)
+
+    print (args)
+
+    if len(args)==1: 
+
+        args=list(args[0]) 
+
+    print (args)
+
+    result=args[0]
+
+    for x in range(1,len(args)):
+
+        if key!=None and key(args[x]) >key(result) or key==None and args[x] >result: 
+
+            result = args[x]
+
+    return result
 '''
-print(range(6))
-print(max(range(6)))

@@ -79,5 +79,9 @@ Follow my designing site: http://www.kamilet.cn _(in Chinese)_
 + Won't read punctuation marks  
 + Won't mind upper letter  
 
+#### My solutions in CheckIO game [Code here](https://github.com/Kamilet/learning-coding/tree/master/simple-program/check-io-solutions)
+**CheckIO游戏自己的解法** \| 有些真的很差！  
++ The game [here](https://py.checkio.org/)
+
 
 ![banner](http://outb2o3fz.bkt.clouddn.com/17-12-31/74609173.jpg)

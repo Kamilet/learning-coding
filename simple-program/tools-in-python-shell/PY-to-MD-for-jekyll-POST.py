@@ -43,7 +43,7 @@ tags: [python, file]\n\
 ---\n\
 \n\
 * content\n\
-{}\n\n'.format(f[:-4], time.strftime("%Y-%m-%d", time.localtime()), time.strftime("%H:%M:%S", time.localtime()), '{:toc}')
+{}\n\n'.format(f[:-3], time.strftime("%Y-%m-%d", time.localtime()), time.strftime("%H:%M:%S", time.localtime()), '{:toc}')
     md.write(head)
     md.write(briefing[0])
     md.write('<!-- more -->\n')
