@@ -36,7 +36,7 @@ def trans(f):
 layout: postcn\n\
 title: "python:{}"\n\
 date: {} {} +0800\n\
-lang: cn\n\
+lang: [cn, en, tw]\n\
 nav: post\n\
 category: python\n\
 tags: [python, file]\n\
