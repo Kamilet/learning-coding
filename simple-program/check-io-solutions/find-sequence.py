@@ -15,29 +15,29 @@ for a NxN(N>=4), we shold check:
 
 def checkio(matrix):
     N = len(matrix)
-    for colume in range(N-3):
-        # from [0,0] to [n-3][n-3], line++, colume++
-        for line in range(N-3):
-            if matrix[line][colume] == matrix[line+1][colume+1]\
-            and matrix[line][colume] == matrix[line+2][colume+2]\
-            and matrix[line][colume] == matrix[line+3][colume+3]:
+    for x in range(N-3):
+        # from [0,0] to [n-3][n-3], y++, x++
+        for y in range(N-3):
+            if matrix[y][x] == matrix[y+1][x+1]\
+            and matrix[y][x] == matrix[y+2][x+2]\
+            and matrix[y][x] == matrix[y+3][x+3]:
                 return True
-        # from [0,3] to [n-3,0], line--, colume++ (contrast to the axes)
-        for line in range(3,N):
-            if matrix[line][colume] == matrix[line+1][colume-1]\
-            and matrix[line][colume] == matrix[line+2][colume-2]\
-            and matrix[line][colume] == matrix[line+3][colume-3]:
+        # from [0,3] to [n-3,0], y--, x++ (contrast to the axes)
+        for y in range(3,N):
+            if matrix[y][x] == matrix[y-1][x+1]\
+            and matrix[y][x] == matrix[y-2][x+2]\
+            and matrix[y][x] == matrix[y-3][x+3]:
                 return True
-        # from [0,0] to [n, n-3], colume ++ (contrast to the axes)
-        for line in range(0,N-3):
-            if matrix[line][colume] == matrix[line+1][colume]\
-            and matrix[line][colume] == matrix[line+2][colume]\
-            and matrix[line][colume] == matrix[line+3][colume]:
+        # from [0,0] to [n, n-3], x ++ (contrast to the axes)
+        for y in range(0,N):
+            if matrix[y][x] == matrix[y][x+1]\
+            and matrix[y][x] == matrix[y][x+2]\
+            and matrix[y][x] == matrix[y][x+3]:
                 return True
         #
-            if matrix[colume][line] == matrix[colume][line]\
-            and matrix[colume][line] == matrix[colume][line]\
-            and matrix[colume][line] == matrix[colume][line]:
+            if matrix[x][y] == matrix[x+1][y]\
+            and matrix[x][y] == matrix[x+2][y]\
+            and matrix[x][y] == matrix[x+3][y]:
                 return True
     return False
 
@@ -70,3 +70,4 @@ if __name__ == '__main__':
         [4, 6, 5, 1, 3, 1],
         [1, 1, 9, 1, 2, 1]
     ]) == True, "Diagonal"
+    assert checkio([[2,6,2,2,7,6,5],[3,4,8,7,7,3,6],[6,7,3,1,2,4,1],[2,5,7,6,3,2,2],[3,4,3,2,7,5,6],[8,4,6,5,2,9,7],[5,8,3,1,3,7,8]]) == False, "Check"
