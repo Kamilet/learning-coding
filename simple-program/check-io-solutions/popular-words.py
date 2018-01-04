@@ -8,10 +8,26 @@ list里的item都是小写
 import re
 
 def popular_words(text, words):
-    text = (text.lower()).split('\n| |,|.')
-    print(text)
-
-    return None
+    text = text.lower()
+    text = re.split('\n|,| |\.',text)
+    # return a list
+    '''
+    count = [0]*(len(words))
+    for i in range(len(text)):
+        for k in range(len(words)):
+            if text[i] == words[k]:
+                count[k] = count[k] + 1
+                # A break should be here if the words won't really repeat.
+    return count
+    '''
+    # return a ditc
+    count = {}
+    for i in words:
+        count[i] = 0
+        for k in text:
+            if i == k:
+                count[i] = count[i] + 1
+    return count
 
 
 if __name__ == '__main__':
