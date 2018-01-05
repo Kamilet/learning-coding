@@ -9,21 +9,10 @@ D   500 (quingenti)
 M   1,000 (mille)
 '''
 
-
-
-if __name__ == '__main__':
-    #These "asserts" using only for self-checking and not necessary for auto-testing
-    assert checkio(6) == 'VI', '6'
-    assert checkio(76) == 'LXXVI', '76'
-    assert checkio(499) == 'CDXCIX', '499'
-    assert checkio(3888) == 'MMMDCCCLXXXVIII', '3888'
-    assert checkio(3999) == 'MMMCMXCIX', '3999'
-    assert checkio(579) == 'DLXXIX', '579'
-
-
 # This is failed written by me.
 # retrying
-'''
+
+
 def checkio(data):
 
     finlist = []
@@ -40,21 +29,21 @@ def checkio(data):
     print(finlist)
     flag = True
     while flag:
+        print('runing')
         flag = False
         for i in [6, 4, 2]:
-            if len(finlist[i]) == 5:
+            if len(finlist[i]) == 5 and finlist[i][2] == finlist[i][-1]:
                 finlist[i] = finlist[i][-1]
                 finlist[i-1] = finlist[i-1][:-1] + finlist[i][-1] + finlist[i-1][-1] *2
                 flag = True
         print(finlist)
         for i in [5, 3, 1]:
-            if len(finlist[i]) == 3 and finlist[i][1] == finlist[i][2]:
-                finlist[i-1] = finlist[i-1][-1] + finlist[i-1][:-1] + finlist[i-1][-1]
+            if len(finlist[i]) == 4:
                 finlist[i] = finlist[i][-1]
-                flag = True
-            elif len(finlist[i]) > 3 and finlist[i][1] == finlist[i][-2]:
-                finlist[i-1] = finlist[i-1][:-1] + finlist[i][2:-3] + finlist[i-1][-1] *2
-                finlist[i] = finlist[i][-1]
+                if len(finlist[i-1]) == 1:
+                    finlist[i-1] = finlist[i+1][-1] + finlist[i-1]*2
+                else:
+                    finlist[i-1] = finlist[i-1][:-1] + finlist[i+1][-1] + finlist[i-1][-1] *2
                 flag = True
         print(finlist)
 
@@ -70,4 +59,13 @@ checkio(3888)
 checkio(499)
 checkio(76)
 checkio(6)
-'''
+
+
+if __name__ == '__main__':
+    #These "asserts" using only for self-checking and not necessary for auto-testing
+    assert checkio(6) == 'VI', '6'
+    assert checkio(76) == 'LXXVI', '76'
+    assert checkio(499) == 'CDXCIX', '499'
+    assert checkio(3888) == 'MMMDCCCLXXXVIII', '3888'
+    assert checkio(3999) == 'MMMCMXCIX', '3999'
+    assert checkio(579) == 'DLXXIX', '579'
