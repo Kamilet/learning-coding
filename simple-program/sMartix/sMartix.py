@@ -1,5 +1,6 @@
 '''
-A lightweight module for handling Real Number Matrix.
+A lightweight module for handling Matrix.
+Built For Real Number.
 Plural actually available, but complete test haven't done...
 All items should be numbers or letters in matrix.
 Please use Numpy for more complex situation!
@@ -11,12 +12,16 @@ Please use Numpy for more complex situation!
 # then you can use it! simple :)
 
 # ########################## Information ################################
-# get new version: https://github.com/Kamilet/learning-coding/tree/master/simple-program/sMartix/sMartix.py
-# bug report: http://coding.kamilet.cn/2018/01/06/sMartix
+# bug report: https://github.com/Kamilet/learning-coding/tree/master/simple-program/sMartix/sMartix.py
 # email: hi@kmailet.cn
 
-__author__ = 'Kamilet (kamilet.cn)'
+__author__ = 'Kamilet <hi@kamilet.cn>'
 __version__ = '0.8a'  # lastchanged: 2018-01-06
+__all__ = ['sm_gen', 'sm_cons', 'sm_copy', 'Smatrix', 'sm_numcheck',
+           'sm_check', 'sm_negative', 'sm_abs', 'sm_number', 'sm_str',
+           'sm_trans', 'sm_conj', 'sm_con_trans', 'sm_det', 'sm_inverse',
+           'sm_alge', 'sm_sum', 'sm_minus', 'sm_multis',
+           'sm_multi_mm', 'sm_multi_mn']
 
 # ##########################################################
 # 目标是写出一个包含各种函数的py文件，进行简单的实数矩阵运算。
