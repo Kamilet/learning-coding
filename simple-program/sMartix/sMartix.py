@@ -1,25 +1,3 @@
-###############################################
-# https://github.com/Kamilet/learning-coding/tree/master/simple-program/sMartix
-###############################################
-
-# This is Useless, please trun to here:
-
-###############################################
-# https://github.com/Kamilet/learning-coding/tree/master/simple-program/sMartix
-###############################################
-
-
-
-
-
-
-
-
-
-
-
-
-
 '''
 A lightweight module for handling Real Number Matrix.
 Plural actually available, but complete test haven't done...
@@ -27,19 +5,30 @@ All items should be numbers or letters in matrix.
 Please use Numpy for more complex situation!
 '''
 
-###########################################################
+# ########################## Instruction ################################
+# put it in your floder and use like this:
+# from sMartix import *
+# then you can use it! simple :)
+
+# ########################## Information ################################
+# get new version: https://github.com/Kamilet/learning-coding/tree/master/simple-program/sMartix/sMartix.py
+# bug report: http://coding.kamilet.cn/2018/01/06/sMartix
+# email: hi@kmailet.cn
+
+__author__ = 'Kamilet (kamilet.cn)'
+__version__ = '0.8a'  # lastchanged: 2018-01-06
+
+# ##########################################################
 # 目标是写出一个包含各种函数的py文件，进行简单的实数矩阵运算。
 # 命名为sMartix，是Simple matrix的意思，简单处理简单矩阵。
 # 计划开始于  |  Kamilet 2018-01-05  |  coding.kamilet.cn
-###########################################################
+
+# ##########################################################
 # 个人很讨厌矩阵，这也是为什么我打算写一个矩阵的拓展自己用。
 # 仅处理二维矩阵的基本运算，并附带检查和生成矩阵的功能。
 # 起码要包括高数常用的功能，并希望包括查询功能（五子棋）。
 # 只对元素为单个数字的矩阵进行处理，复杂的为什么不用Numpy？
-# 尝试加入复数，测试中
-
-__author__ = 'Kamilet (kamilet.cn)'
-__version__ = '0.8a'  # lastchanged: 2018-01-06
+# 已经加入复数，测试中
 
 # -------------------------------------------------------
 # Handle with single matrix
@@ -597,139 +586,3 @@ def sm_multi_mn(matrix, number):
         for _i in range(len(_item)):
             _item[_i] *= number
     return new_matrix
-
-
-
-
-# Testing
-'''
-a = [[1, 2], [1, 0]]
-b = Smatrix(a).clean(echo=1)
-c = [[1, 3, 4], [2, '']]
-d = [[1, 2, 3, 4, 5], [2, 3, 4, 5, 6], [3, 4, 5, 6, 7]]
-
-
-sm_check(a)
-print(sm_numcheck(a))
-print(a)
-print(b)
-print(sm_cons(c, echo=1))
-e = Smatrix(d)
-e.view()
-e = e.rotate('mirrorcolume')
-e = Smatrix(e)
-e.view()
-print(help(Smatrix))
-
-
-print(sm_numcheck([['A',1],[1,2]]))
-print(sm_numcheck([['1',1],[1,2]]))
-print(sm_numcheck([[1,1.321],[1,2]]))
-
-print(sm_number([['A',1],[1,2]], force = 1))
-print(sm_number([['1',1],[1,2]]))
-print(sm_number([[1,1.321],[1,2]]))
-
-
-a_1 = [[1,'A'],[1,1]]
-a_2 = [[1, 1],[1,2]]
-a_3 = [[1,'1'],[2,4]]
-print(sm_minus(a_1,a_2,force = 1))
-
-print(sm_gen(4,eye=1))
-a = [[1, 2, 1, 5],
-     [1, 2, 1, 4],
-     [1, 1, 1, 6],
-     [1, 7, 2, 5]]
-A = Smatrix(a)
-print('Start with',A.find('',2,'r',1),'in row')
-print('Start with',A.find('',2,'c',1),'in colume')
-print('Start with',A.find(1,3,'o',1),'in oblique')
-
-mu1 = [[1,0,2],
-       [-1,3,1]]
-
-mu2 = [[3,1],
-       [2,1],
-       [1,0]]
-
-mu3 = [[5,1],
-       [2,2]]
-
-print('矩阵1:')
-Smatrix(mu1).view()
-print('矩阵1，转置:')
-temp = Smatrix(mu1).rotate()
-Smatrix(temp).view()
-
-print('矩阵1:')
-Smatrix(mu1).view()
-print('矩阵1+矩阵1:')
-temp = sm_sum(mu1,mu1)
-Smatrix(temp).view()
-
-print('矩阵1:')
-Smatrix(mu1).view()
-print('矩阵2:')
-Smatrix(mu2).view()
-print('矩阵1 * 矩阵2:')
-temp = sm_multis(mu1,mu2)
-Smatrix(temp).view()
-print('矩阵2 * 矩阵1:')
-temp = sm_multis(mu2,mu1)
-Smatrix(temp).view()
-print('矩阵1 * 矩阵2 * 5:')
-temp = sm_multis(mu1,5,mu2)
-Smatrix(temp).view()
-
-print('矩阵3:')
-Smatrix(mu3).view()
-print('矩阵1 * 矩阵2 * 矩阵3:')
-temp = sm_multis(mu1,mu2,mu3)
-Smatrix(temp).view()
-
-print('矩阵1 * 矩阵3:前列后行不等报错')
-#temp = sm_multis(mu1,mu3)
-
-mu4 = [[1,0,2],
-       [-1,3,1]]
-print(sm_trans(mu4))
-m5 = [[(1+1j),(4-2j)],[4,(-1j)]]
-print(sm_con_trans(m5))
-
-mu6 = [[1,1,1],
-       [3,1,4],
-       [8,9,5]]
-
-mu7 = [[0,0,-1,0],
-       [0,1,0,0],
-       [-1,0,1,0]]
-
-print(sm_det(mu6))
-print(sm_det(mu7,force=1))
-
-
-
-mu8 = [[0,1,2],
-       [1,1,4],
-       [2,-1,0]]
-a = sm_inverse(mu8)
-Smatrix(a).view()
-
-mu9 = [[1,2,3],
-       [2,2,1],
-       [3,4,3]]
-
-print(sm_det(mu9))
-print(sm_alge(mu9,0,0))
-print(sm_alge(mu9,1,0))
-print(sm_alge(mu9,2,0))
-print(sm_alge(mu9,0,1))
-print(sm_alge(mu9,1,1))
-print(sm_alge(mu9,2,1))
-print(sm_alge(mu9,0,2))
-print(sm_alge(mu9,1,2))
-print(sm_alge(mu9,2,2))
-print(sm_inverse(mu9))
-'''
-
