@@ -13,6 +13,11 @@ Follow my designing site: http://www.kamilet.cn _(in Chinese)_
 ---
 ## Something maybe useful here
 
+#### Simple Matrix python [Code here](https://github.com/Kamilet/Simple-Matrix-python)
+**矩阵处理模块** \| 处理和计算简单的矩阵  
+A lightweight module for simple Matrix operation. Simple and easy to use.  
++ A module smaller than Numpy
+
 #### A library management system [Code here](https://github.com/Kamilet/learning-coding/tree/master/simple-program/python-library-system)  
 **图书管理系统** \| 没有GUI \| 不使用SQL或拓展库 \| 使用TXT固化数据  
 + using TXT file to immobilize data
