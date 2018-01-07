@@ -137,6 +137,8 @@ if __name__ == "__main__":
 
 
 '''
+return max(max(min(histogram[j: j + i + 1]) for j in range(len(histogram) - i)) *(i+1) for i in range(len(histogram)))
+
 网上看到一种借助栈的做法，代码很漂亮，但是解释都非常模糊，我看懂之后，决定仔细描述思路如下：
 
 1、如果已知height数组是升序的，应该怎么做？
