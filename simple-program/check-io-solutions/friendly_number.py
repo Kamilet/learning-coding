@@ -30,7 +30,26 @@ def friendly_number(number, base=1000, decimals=0, suffix='',
     """
     Format a number as friendly text, using common suffixes.
     """
-    return str(number)
+    # 检索powers列表，取出长度，即进位极限len(powers)
+    # 比较number和base，确定应该进几次位carry，即number/base几次后将小于base
+    carry = 0
+    for i in range(0, len(powers)):
+        if number / (base ** i) < base:
+            carry = i
+            break
+        carry = i
+    # 被除数的base变成base**(carry)
+    base = base ** carry
+    # 使用number除以base，保留decimals位
+    # round(number,decimals)
+    # 但是在decimals=0的情况下直接使用int或者//
+    if decimals == 0:
+        number = number // base
+    else:
+        number = round(number/base, decimals)
+    # number和powers(carry+1)和suffix连起来，就是结果
+    print(''.join([str(number), powers[carry], suffix]))
+    return ''.join([str(number), powers[carry], suffix])
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':
