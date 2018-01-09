@@ -1,3 +1,4 @@
+'''
 def is_family(tree):
     lentree = len(tree)
     if lentree == 1: return True
@@ -44,6 +45,22 @@ def is_family(tree):
             return True
         if family_cont.pop() in family_cont:
             return False
+'''
+def is_family(tree):
+    family_dict = {}
+    for items in tree:
+        try:
+            if items[1] in family_dict[items[0]]:
+                pass
+            else:
+                family_dict[items[0]].append(items[1])
+        except KeyError:
+            family_dict[items[0]] = [items[1]]
+    print(tree,'!!!!',family_dict)
+    '''进行递归，在family_dict里取出key，去key里寻找，再去key的key里寻找，直到key不存在
+    寻找的路径存入一个数组，如果已经存在，跳出'''
+    
+    return True
 
 
 
