@@ -1,3 +1,23 @@
+'''
+ DahliaSR [Follow] 2 hours ago The Counters Most Common 0
+
+Never use blank excepts, also make sure you are only catching specific exceptions instead of any exception:
+
+except KeyError:
+    _dict[i] = 1
+
+In this case it would be better to avoid that a key is not present in _dict, by using dict.fromkeys():
+
+# init a dict where each string from data is present is a key, with value = 0
+_dict = dict.fromkeys(data, 0)
+
+max() instead of sorted() would have been the better choice.
+
+return max(_dict.items, key=lambda x: x[1])[0]
+
+
+'''
+
 def most_frequent(data):
     """
         determines the most frequently occurring string in the sequence.
