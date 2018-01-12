@@ -1,8 +1,17 @@
-# wrong.. $5.34 → $5.34 .. dont really understand
+# wrong.. $5.34 → $5.34 .. dont really understand $
+
+#wrong2:
+# Your result:  "Clayton Kershaw $31,000,000\nZack Greinke $27,000,000\nAdrian Gonzalez $21,857,143\n"
+# Right result: "Clayton Kershaw $31,000,000\nZack Greinke $27,000,000\nAdrian Gonzalez $21,857,143\n"
+# find_message("Clayton Kershaw $31.000.000\nZack Greinke $27.000.000\nAdrian Gonzalez $21.857.143\n")
 def checkio(text):
     text = text.split(' ')
     _text = []
+
     for items in text:
+      if len(items) == 0:
+        _text.append(items)  # if i dont add this, wrong when check, why
+        continue
       if items[0] == '$':
         _temp = []
         _maxp = 0
@@ -10,7 +19,7 @@ def checkio(text):
           if items[i] == '.' or items[i] == ',':
             _maxp = i
             _temp.append(items[i])
-        if (len(_temp) > 1 and _temp[0][0] == ',') or (len(_temp) == 1 and _temp[0][0] == '.' and len(_temp[0])-i == 3):
+        if (len(_temp) > 1 and _temp[0][0] == ',') or (len(_temp) == 1 and _temp[0][0] == '.' and len(items)-_maxp == 3):
           print('ppp')
           _text.append(items)
         else:
@@ -26,7 +35,6 @@ def checkio(text):
           _text.append(''.join(_temp))
       else:
         _text.append(items)
-    print(' '.join(_text))
     return ' '.join(_text)
 
 if __name__ == '__main__':    
@@ -41,6 +49,7 @@ if __name__ == '__main__':
     assert checkio("$1.234, $5.678 and $9") == \
                    "$1,234, $5,678 and $9", "Dollars without cents"
     assert checkio("$5.34") == '$5.34'
+    checkio('Clayton Kershaw $31.000.000\nZack Greinke $27.000.000\nAdrian Gonzalez $21.857.143\n')
 
 '''wrong
 def checkio(text):
@@ -67,3 +76,36 @@ def checkio(text):
     print(''.join(_text))
     return ''.join(_text)
 '''
+
+
+'''only wrong when check, index out of range
+def checkio(text):
+    text = text.split(' ')
+    _text = []
+    for items in text:
+      if items[0] == '$':
+        _temp = []
+        _maxp = 0
+        for i in range(len(items)-1):
+          if items[i] == '.' or items[i] == ',':
+            _maxp = i
+            _temp.append(items[i])
+        if (len(_temp) > 1 and _temp[0][0] == ',') or (len(_temp) == 1 and _temp[0][0] == '.' and len(items)-_maxp == 3):
+          print('ppp')
+          _text.append(items)
+        else:
+          _temp = []
+          for i in range(len(items)-1):
+            if items[i] == '.':
+              _temp.append(',')
+            elif items[i] == ',':
+              _temp.append('.')
+            else:
+              _temp.append(items[i])
+          _temp.append(items[-1])
+          _text.append(''.join(_temp))
+      else:
+        _text.append(items)
+    print(' '.join(_text))
+    return ' '.join(_text)
+    '''
