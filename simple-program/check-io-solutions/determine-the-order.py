@@ -3,6 +3,124 @@
 '''
 
 
+def checkio(data):
+    # find every pair in data
+    pairs = []
+    for string in data:
+        for i in range(len(string)-1):
+            pairs.append([string[i],string[i+1]])
+    # build a string without queue
+    findata = ''.join(data)
+    findata = sorted(set(findata))
+    # print(pairs)
+    # use a way like Bubble Sort
+    while True:
+        flag = True
+        for pair in pairs:
+            index_pair_1 = findata.index(pair[0])
+            index_pair_2 = findata.index(pair[1])
+            if index_pair_1 > index_pair_2:
+                findata[index_pair_1], findata[index_pair_2] =\
+                findata[index_pair_2], findata[index_pair_1]
+                # print(findata)
+                flag = False
+        if flag: break
+    # print(findata)
+    # failed check ["jhgedba","jihcba","jigfdca"]
+    # check every pair in findata and fin pairs that never in same string
+    for i in range(len(findata)-1):
+        flag = True
+        for string in data:
+            if findata[i] in string and findata[i+1] in string:
+                flag = False
+        if flag:
+            findata[i], findata[i+1] =\
+            min(findata[i], findata[i+1]), max(findata[i], findata[i+1])
+    return ''.join(findata)
+
+
+assert checkio(["jhgedba","jihcba","jigfdca"]) == 'jihgefdcba'
+# Your result: "jihgfedcba"
+assert checkio(["hfecba", "hgedba", "hgfdca"]) == "hgfedcba"
+assert checkio(["b", "d", "a"]) == 'abd'
+assert checkio(["ghi", "abc", "def"]) == "abcdefghi"
+assert checkio(["acb", "bd", "zwa"]) == "zwacbd"
+assert checkio(["klm", "kadl", "lsm"]) == "kadlsm"
+assert checkio(["a", "b", "c"]) == "abc"
+assert checkio(["aazzss"]) == "azs"
+assert checkio(["dfg", "frt", "tyg"]) == "dfrtyg"
+
+
+if __name__ == '__main__':
+
+    assert checkio(["acb", "bd", "zwa"]) == "zwacbd", \
+        "Just concatenate it"
+    assert checkio(["klm", "kadl", "lsm"]) == "kadlsm", \
+        "Paste in"
+    assert checkio(["a", "b", "c"]) == "abc", \
+        "Cant determine the order - use english alphabet"
+    assert checkio(["aazzss"]) == "azs", \
+        "Each symbol only once"
+    assert checkio(["dfg", "frt", "tyg"]) == "dfrtyg", \
+        "Concatenate and paste in"
+    assert checkio(["name", "my", "myke"]) == 'namyke'
+    assert checkio(["my", "name", "myke"]) == 'namyke'
+    assert checkio(["qwerty", "asdfg", "zxcvb", "yagz"]) == 'qwertyasdfgzxcvb'
+
+
+
+'''第四轮凉了
+def checkio(data):
+
+
+    # find every pair in data
+    pairs = []
+    for string in data:
+        for i in range(len(string)-1):
+            pairs.append([string[i],string[i+1]])
+    # build a string without queue
+    findata = ''.join(data)
+    findata = sorted(set(findata))
+    # print(pairs)
+    # use a way like Bubble Sort
+    while True:
+        flag = True
+        for pair in pairs:
+            index_pair_1 = findata.index(pair[0])
+            index_pair_2 = findata.index(pair[1])
+            if index_pair_1 > index_pair_2:
+                findata[index_pair_1], findata[index_pair_2] =\
+                findata[index_pair_2], findata[index_pair_1]
+                flag = False
+        if flag: break
+    print(findata)
+    # return ''.join(data)
+    # this failed check with "jhgedba","jihcba","jigfdca"
+    # fixed it with same idea
+
+    # findata = ''.join(data)
+    # findata = sorted(set(findata))
+
+    length = len(findata)
+    while True:
+        print(findata)
+        flag = True
+        for i in range(length-1):
+            for queues in data:
+                try:
+                    index_0 = queues.index(findata[i])
+                    index_1 = queues.index(findata[i+1])
+                    if index_0 > index_1:
+                        findata[i], findata[i+1] = findata[i+1], findata[i]
+                        flag = False
+                except ValueError:
+                    pass
+        if flag: break
+    print(findata)
+    return ''.join(findata)
+'''
+
+
 '''这个方法也凉了……第三轮失败
 def connector(strings):
     newstings = strings[0][0]
