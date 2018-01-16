@@ -52,9 +52,9 @@ def checkio(bunker):
             if status[i][0] + status[i][1] < f:
                 f = status[i][0] + status[i][1]
                 active = i
-    now = active
-    while status[now][2]:
-        now = status[now][2]
+    # now = active
+    # while status[now][2]:
+    #    now = status[now][2]
     # print(status[active][0] + status[active][1])
     return status[active][0] + status[active][1]
 
