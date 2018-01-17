@@ -67,6 +67,14 @@ A lightweight module for simple Matrix operation. Simple and easy to use.
 + Add your code with {highlight} and {endhighlight}
 + You need to edit it if inusing different Jekyll theme
 
+#### Read Numbers in Chinese [Code here](https://github.com/Kamilet/learning-coding/blob/master/simple-program/tools-in-python-shell/Chinese-Number.py)
+**会计或发票用，数字转化汉字** \| 贴心地为你在高位后的任何一位写上零 \| 没小数部分会以'整'结尾 \| 直接输出，没有返回  
++ No returns, Just print
++ Turn numbers to Chinese for accounting...
++ Print just like (5031.23):  
+
+> 伍 | 仟 | 零 | 佰 | 叁 | 拾 | 壹 | 圆 | 贰 | 角 | 贰 | 分
+
 #### Readnumbers [Code here](https://github.com/Kamilet/learning-coding/blob/master/simple-program/check-io-solutions/speechmodule.py)
 **读文字，英文版** \| 可以加s或不加 \| 可以用数字的形式读位
 + Read numbers smaller than 999,999,999,999
