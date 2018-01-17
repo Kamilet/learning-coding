@@ -67,6 +67,11 @@ A lightweight module for simple Matrix operation. Simple and easy to use.
 + Add your code with {highlight} and {endhighlight}
 + You need to edit it if inusing different Jekyll theme
 
+#### Readnumbers [Code here](https://github.com/Kamilet/learning-coding/blob/master/simple-program/check-io-solutions/speechmodule.py)
+**读文字，英文版** \| 可以加s或不加 \| 可以用数字的形式读位
++ Read numbers smaller than 999,999,999,999
++ Optional for add 's' to carrys
+
 #### Something not that useful [Code here](https://github.com/Kamilet/learning-coding/tree/master/simple-program/tools-in-python-shell)  
 
 **Delete NEF file when not a JPG file with same name**  
