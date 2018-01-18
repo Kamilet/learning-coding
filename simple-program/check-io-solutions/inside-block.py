@@ -29,27 +29,29 @@
 def is_inside_bug(area, position):
     '''the position in given area ?'''
     # First test
-    if position in area: return True
+    if position in area:
+        return True
     # Check points once
     c_left = 0
     c_right = 0
-    for ppp in range(-1,len(area)-1):
+    for ppp in range(-1, len(area)-1):
         first_point = area[ppp]
         second_point = area[ppp+1]
-        if (first_point[1]>=position[1] and second_point[1]>position[1]) or\
-           (first_point[1]<=position[1] and second_point[1]<position[1]):
-           continue
+        if (first_point[1] >= position[1] and second_point[1] > position[1]) or\
+           (first_point[1] <= position[1] and second_point[1] < position[1]):
+            continue
         else:
             if first_point[0] == second_point[0]:
                 cross_point_x = first_point[0]
             else:
-                rate = (first_point[1] - second_point[1])/(first_point[0] - second_point[0])
+                rate = (first_point[1] - second_point[1]) / \
+                    (first_point[0] - second_point[0])
                 plus = first_point[1] - first_point[0] * rate
                 if rate:
                     cross_point_x = (position[1] - plus)/rate
                 else:
-                    if (first_point[0]>=position[0] and second_point[0]<=position[0]) or\
-                       (first_point[0]<=position[0] and second_point[0]>=position[0]):
+                    if (first_point[0] >= position[0] and second_point[0] <= position[0]) or\
+                       (first_point[0] <= position[0] and second_point[0] >= position[0]):
                         return True
                     else:
                         cross_point_x = first_point[0]
@@ -59,8 +61,8 @@ def is_inside_bug(area, position):
                 c_left += 1
             else:
                 c_right += 1
-    print(c_left,c_right)
-    if c_left%2 == 1 and c_right%2 == 1:
+    print(c_left, c_right)
+    if c_left % 2 == 1 and c_right % 2 == 1:
         return True
     else:
         return False
@@ -74,52 +76,72 @@ def is_inside_bug(area, position):
 def is_inside(area, position):
     '''the position in given area ?'''
     # First test
-    if position in area: return True
+    if position in area:
+        return True
     # Check points once
     c_left = []
 
-    for ppp in range(-1,len(area)-1):
+    for ppp in range(-1, len(area)-1):
         first_point = area[ppp]
         second_point = area[ppp+1]
-        if (first_point[1]>position[1] and second_point[1]>position[1]) or\
-           (first_point[1]<position[1] and second_point[1]<position[1]):
-           continue
+        if (first_point[1] > position[1] and second_point[1] > position[1]) or\
+           (first_point[1] < position[1] and second_point[1] < position[1]):
+            continue
         else:
             if first_point[0] == second_point[0]:
                 cross_point_x = first_point[0]
             else:
-                rate = (first_point[1] - second_point[1])/(first_point[0] - second_point[0])
+                rate = (first_point[1] - second_point[1]) / \
+                    (first_point[0] - second_point[0])
                 plus = first_point[1] - first_point[0] * rate
                 if rate:
                     cross_point_x = (position[1] - plus)/rate
                 else:
-                    if (first_point[0]>=position[0] and second_point[0]<=position[0]) or\
-                       (first_point[0]<=position[0] and second_point[0]>=position[0]):
+                    if (first_point[0] >= position[0] and second_point[0] <= position[0]) or\
+                       (first_point[0] <= position[0] and second_point[0] >= position[0]):
                         return True
                     else:
                         cross_point_x = first_point[0]
             if cross_point_x == position[0]:
                 return True
             elif cross_point_x < position[0]:
-                c_left.append((cross_point_x,position[1]))
-    if len(c_left)%2 == 1:
-        return True
-    elif len(c_left) == len(set(c_left)):
-        return False
+                c_left.append((cross_point_x, position[1]))
+    count_left = len(c_left)
+    # print(c_left)
+    # print(set(c_left))
+    if count_left == len(set(c_left)):
+        if count_left % 2 == 1:
+            return True
+        else:
+            return False
     else:
         # 有重复元素，挑选出，找到相邻点，如果y不在同一侧就减去1
+        Accuracy = 1/100
         while c_left:
-            check_point = c_left.opp()
+            check_point = c_left.pop()
             if check_point in c_left:
                 for i in range(len(area)):
-                    if area[i] == c_left:
-        return 123
+                    if abs(area[i][0] - check_point[0]) < Accuracy and abs(area[i][1] - check_point[1]) < Accuracy:
+                        if i+1 == len(area):
+                            y1 = area[0][1]
+                        else:
+                            y1 = area[i+1][1]
+                        y2 = area[i-1][1]
+                        print(y1, y2, check_point, i)
+                        if (y1 - position[1])*(y2 - position[1]) <= 0:
+                            count_left -= 1
+                        break
+    if count_left % 2 == 1:
+        return True
+    else:
+        # print(count_left)
+        return False
 
 
 if __name__ == '__main__':
 
-    assert is_inside(((1,1),(1,3),(3,3),(3,1)), (2,2)) == True
-    assert is_inside(((1,1),(1,3),(3,3),(3,1)), (4,2)) == False
+    assert is_inside(((1, 1), (1, 3), (3, 3), (3, 1)), (2, 2)) == True
+    assert is_inside(((1, 1), (1, 3), (3, 3), (3, 1)), (4, 2)) == False
     assert is_inside(((1, 1), (1, 3), (3, 3), (3, 1)),
                      (2, 2)) == True, "First"
     assert is_inside(((1, 1), (1, 3), (3, 3), (3, 1)),
@@ -132,13 +154,17 @@ if __name__ == '__main__':
                      (4, 3)) == True, "Fifth"
     assert is_inside(((2, 1), (4, 1), (3, 2), (3, 4), (1, 3)),
                      (4, 3)) == False, "Sixth"
+
     assert is_inside(((1, 1), (3, 2), (5, 1), (4, 3), (5, 5), (3, 4), (1, 5), (2, 3)),
                      (3, 3)) == True, "Seventh"
     assert is_inside(((1, 1), (1, 5), (5, 5), (5, 4), (2, 4), (2, 2), (5, 2), (5, 1)),
                      (4, 3)) == False, "Eighth"
 
-    #checkio
-    assert is_inside(((0,0),(0,2),(2,2),(2,0)),(1,0)) == True
-    assert is_inside(((1,1),(1,3),(2,4),(4,4),(4,3),(2,1)),(3,1)) == False
+    # checkio
+    assert is_inside(((0, 0), (0, 2), (2, 2), (2, 0)), (1, 0)) == True
+    assert is_inside(((1, 1), (1, 3), (2, 4), (4, 4),
+                      (4, 3), (2, 1)), (3, 1)) == False
     # 在计算这一条时出现错误！
-    assert is_inside(((0,0),(1,1),(2,0),(3,1),(4,0),(4,2),(0,2)),(2,1)) == True
+
+    assert is_inside(((0, 0), (1, 1), (2, 0), (3, 1),
+                      (4, 0), (4, 2), (0, 2)), (2, 1)) == True

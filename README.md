@@ -80,6 +80,9 @@ A lightweight module for simple Matrix operation. Simple and easy to use.
 + Read numbers smaller than 999,999,999,999
 + Optional for add 's' to carrys
 
+#### if the point in area/block [Code here](https://github.com/Kamilet/learning-coding/blob/master/simple-program/check-io-solutions/inside-block.py)
+判断点是否在区域内
+
 #### Something not that useful [Code here](https://github.com/Kamilet/learning-coding/tree/master/simple-program/tools-in-python-shell)  
 
 **Delete NEF file when not a JPG file with same name**  
