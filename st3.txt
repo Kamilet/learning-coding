@@ -1,0 +1,34 @@
+备份Packages\User
+Windows下
+备份文件夹：C:\Users\yourusername\AppData\Roaming\Sublime Text 3\Packages\User
+Linux下
+备份文件夹：~/Library/Application/Support/Sublime\ Text\ 3/Packages/User
+//all for python
+
+import urllib.request,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) 
+
+SublimeREPL
+直接在Sublime里运行ipython
+
+SublimeTmpl
+SublimeTmpl 提供了常用文件模板，新建文件时很有用
+
+Anaconda
+代码检查
+
+AutoPep8
+自动将 Python 代码按 PEP8 规范格式化，安装完添加如下配置可自动在保存文件的时候格式化：
+{
+	"format_on_save": true,
+}
+
+//c++
+SublimeAStyleFormatter
+整理美化编写的C++代码 Ctrl+Alt+F
+
+ConvertToUTF8
+此插件可以有效的解决中文乱码问题
+
+CPP-Completions
+代码补全
+
