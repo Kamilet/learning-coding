@@ -4,12 +4,21 @@ n个棋子，黑白wb
 返回n次被换掉的为白的数学期望
 '''
 
-def checkio(pearls, steps):
+'''
+数学归纳法纸上证出公式……
+'''
+
+def checkio(pearls, step):
+    p = len(pearls)
     pw = 0
     for peal in pearls:
         if peal == 'w':
             pw += 1
-    pb = len(peals) - pw
+    for i in range(1, step):
+        pw = (p-2)*pw + p**i
+    pw /= (p**step)
+    # print(round(pw,2))
+    return round(pw,2)
     
 
 
