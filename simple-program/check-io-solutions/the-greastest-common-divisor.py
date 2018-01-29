@@ -2,9 +2,8 @@
 最大公约数
 '''
 
-# 为解决
-
-
+# 穷举，超时
+'''
 def greatest_common_divisor(*args):
     args = sorted(args)
     for div in range(min(args[-1]//2, args[0]), 0, -1):
@@ -17,6 +16,24 @@ def greatest_common_divisor(*args):
             return div
     # print(diversor)
     return 1
+'''
+
+
+def greatest_common_divisor(*args):
+    args = sorted(args)
+    divisor_now = args[0]
+    for i in range(1, len(args)):
+        divisor_now = get_diversor(divisor_now, args[i])
+    print(divisor_now)
+    return divisor_now
+
+# 辗转相除法
+
+
+def get_diversor(num1, num2):
+    while num1 and num2:
+        num1, num2 = max(num1, num2) % min(num1, num2), min(num1, num2)
+    return num1+num2
 
 
 greatest_common_divisor(6, 4) == 2
