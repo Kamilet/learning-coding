@@ -4,11 +4,15 @@
 
 
 
-def checkio(matrix):
-    if len(matrix) == 1:
-        return matrix[0][0]
+def checkio(m):
+    if len(m) == 1:
+        return m[0][0]
     else:
-        return sm_det(matrix)
+        s = 0
+        for i in range(len(m)):
+            n = [[row[a] for a in range(len(m)) if a != i] for row in m[1:]]
+            s += m[0][i] * checkio(n) * (-1) ** (i % 2)
+        return s
 
 
 checkio([[4,3], [6,3]]) == -6
