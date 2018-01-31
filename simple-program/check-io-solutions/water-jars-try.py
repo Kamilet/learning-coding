@@ -63,19 +63,20 @@ def witch_better(cup_a, cup_b, need):
             print('error')
             break
     #print('小优先{}步'.format(len(steps)), steps, '\n')
-    if a > len(steps):
-        a = '小'
-    else:
-        a = '大'
-    print(cup_a, cup_b, '|', need, '|', a)
+    print(cup_a, ',', cup_b, ',', need, ',', a, ',', len(steps))
 
 
 witch_better(5, 7, 6)
 witch_better(5, 8, 6)
 witch_better(5, 9, 6)
 witch_better(5, 11, 6)
+witch_better(3, 7, 6)
+witch_better(3, 8, 6)
+witch_better(3, 10, 6)
+witch_better(3, 11, 6)
 witch_better(3, 4, 1)
 witch_better(8, 5, 2)
+witch_better(5, 8, 2)
 witch_better(2, 5, 1)
 witch_better(4, 10, 2)
 
