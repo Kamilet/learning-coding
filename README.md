@@ -81,7 +81,10 @@ A lightweight module for simple Matrix operation. Simple and easy to use.
 + Optional for add 's' to carrys
 
 #### if the point in area/block [Code here](https://github.com/Kamilet/learning-coding/blob/master/simple-program/check-io-solutions/inside-block.py)
-判断点是否在区域内
+**判断点是否在区域内** \| 可用于地图 \| 点射线法
+
+#### Water jars problem [Code here](https://github.com/Kamilet/learning-coding/blob/master/simple-program/check-io-solutions/water-jars.py)
+**量水问题** \| 给定两个杯子测出需求的水量
 
 #### Something not that useful [Code here](https://github.com/Kamilet/learning-coding/tree/master/simple-program/tools-in-python-shell)  
 
