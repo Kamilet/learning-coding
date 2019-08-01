@@ -28,7 +28,7 @@ pY = random.randint(0, 9)
 singleWord = linecache.getline('data/words.html', pX)[pY]
 usedWord = linecache.getline('data/words-used.html', 2)
 hashXY = str(pX*1000+pY)    #查重
-print(usedWord)
+#print(usedWord)
 if hashXY in usedWord:
     print('\n该关键字已被生成过至少1次！\n')
 else:
